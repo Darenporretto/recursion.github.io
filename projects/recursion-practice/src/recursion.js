@@ -157,7 +157,7 @@ var powerOfTwo = function(n) {
 var reverse = function(string) {//is string empty or not return as is 
   if (string.length <= 1) {
     return string;
-  }//reverse substring move front to back
+  }//recur reverse substring move front to back
   return reverse(string.substring(1)) + string[0];
 };
 
