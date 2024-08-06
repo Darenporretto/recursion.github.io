@@ -72,8 +72,49 @@ var sumBelow = function(n) {
 
 // 6. Get the integers in range (x, y).
 // Example:  range(2, 9);  // [3, 4, 5, 6, 7, 8]
-var range = function(x, y) {
-};
+function range(x, y) {
+
+  if (x < y) {
+    //base if x is greater than or equal to y minus 1
+    if (x >= y - 1) {
+      return [];//return an empty array
+    }
+
+   //recursion: get range of integers from x plus 1 to y
+    let result = range(x + 1, y);
+    result.unshift(x + 1);
+
+    return result;
+  } 
+  //order is x > y
+  else if (x > y) {
+    //base
+    if (x <= y + 1) {
+      return [];
+    }
+
+    //recursion
+    let result = range(x - 1, y);
+    result.unshift(x - 1);
+
+    return result;
+  }
+  //edge edge ase that x equals y
+  else {
+    return [];
+  }
+}
+
+// Testing the function
+console.log(range(2, 9));   // Expected Output: [3, 4, 5, 6, 7, 8]
+console.log(range(9, 2));   // Expected Output: [8, 7, 6, 5, 4, 3]
+console.log(range(1, 5));   // Expected Output: [2, 3, 4]
+console.log(range(5, 1));   // Expected Output: [4, 3, 2]
+console.log(range(5, 5));   // Expected Output: []
+console.log(range(-3, 3));  // Expected Output: [-2, -1, 0, 1, 2]
+console.log(range(3, -3));  // Expected Output: [2, 1, 0, -1, -2]
+
+
 
 // 7. Compute the exponent of a number.
 // The exponent of a number says how many times the base number is used as a factor.
@@ -81,6 +122,16 @@ var range = function(x, y) {
 // Example:  exponent(4,3);  // 64
 // https://www.khanacademy.org/computing/computer-science/algorithms/recursive-algorithms/a/computing-powers-of-a-number
 var exponent = function(base, exp) {
+  //base 
+  if (exp === 0){
+    return 1;
+  } 
+  // negative exponents
+  if (exp < 0) {
+    return 1 / exponent(base, -exp);
+  }
+  //recursion multiply base with the resuly of base^exp - 1
+  return base * exponent(base, exp - 1);
 };
 
 // 8. Determine if a number is a power of two.
@@ -88,10 +139,26 @@ var exponent = function(base, exp) {
 // powerOfTwo(16); // true
 // powerOfTwo(10); // false
 var powerOfTwo = function(n) {
+  if (n <= 0) {//if less than or equal to 0 not a power of 2
+    return false;
+  }
+
+  if (n === 1) {//if is 1 is a power of 2
+    return true;
+  }
+
+  if (n % 2 === 0) {//recursion n divisible by 2 check if power of 2
+    return powerOfTwo(n /2);
+  }
+  return false;
 };
 
 // 9. Write a function that accepts a string a reverses it.
-var reverse = function(string) {
+var reverse = function(string) {//is string empty or not return as is 
+  if (string.length <= 1) {
+    return string;
+  }//reverse substring move front to back
+  return reverse(string.substring(1)) + string[0];
 };
 
 // 10. Write a function that determines if a string is a palindrome.
