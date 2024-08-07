@@ -163,6 +163,20 @@ var reverse = function(string) {//is string empty or not return as is
 
 // 10. Write a function that determines if a string is a palindrome.
 var palindrome = function(string) {
+  string = string.toLowerCase().replace(/[^a-z0-9]/gi, '');
+
+  //BASE
+  if (string.length <= 1) {
+    return true;
+  }
+
+  //CHECK first and last chars
+  if (string[0] !== string[string.length - 1]) {
+    return false;
+  }
+
+  //recursion check the substring remove the first and last chars
+  return palindrome(string.substring(1, string.length - 1));
 };
 
 // 11. Write a function that returns the remainder of x divided by y without using the
@@ -177,6 +191,13 @@ var modulo = function(x, y) {
 // JavaScript's Math object.
 // ATTENTION DO NOT LEAVE COMMENTS IN THIS FUNCTION. The test is looking for any ('/').
 var multiply = function(x, y) {
+    if (y === 0) {
+      return 0;
+    }
+    if (y < 0) {
+      return -multiply(x, -y);
+    }
+    return x + multiply(x, y - 1);
 };
 
 // 13. Write a function that divides two numbers without using the / operator  or
@@ -198,32 +219,94 @@ var gcd = function(x, y) {
 // compareStr('', '') // true
 // compareStr('tomato', 'tomato') // true
 var compareStr = function(str1, str2) {
-};
+  if (str1 === '' && str2 === '') {
+    return true;
+  }
+  
+  //BASE one string is empty but not the other
+  if (str1 === '' || str2 === '') {
+    return false;
+  }
+  
+  //BASE characters at  position are different
+  if (str1[0] !== str2[0]) {
+    return false;
+  }
+      //recur compare the rest of the strings
+  return compareStr(str1.slice(1), str2.slice(1));
+}
+
 
 // 16. Write a function that accepts a string and creates an array where each letter
 // occupies an index of the array.
 var createArray = function(str){
+   //BASE if the string is empty, return an empty array
+   if (str === '') {
+    return [];
+  }
+
+  //RECUR create an array with the first character and the rest of the string
+  return [str[0]].concat(createArray(str.slice(1)));
 };
 
 // 17. Reverse the order of an array
 var reverseArr = function (array) {
+  //BASE if array is empty or has a single element return it
+  if (array.length <= 1) {
+    return array;
+  }
+
+  //RECUR reverse rest of the array and add the first element to end
+  var lastElement = array[array.length - 1];
+  var restOfArray = array.slice(0, -1);
+  
+  return [lastElement].concat(reverseArr(restOfArray));
 };
 
 // 18. Create a new array with a given value and length.
 // buildList(0,5) // [0,0,0,0,0]
 // buildList(7,3) // [7,7,7]
 var buildList = function(value, length) {
+  //BASE if length is 0 return empty array
+  if (length <= 0) {
+    return [];
+  }
+  
+  //RECUR create the array with the value and build the rest
+  return [value].concat(buildList(value, length - 1));
 };
 
 // 19. Count the occurence of a value inside a list.
 // countOccurrence([2,7,4,4,1,4], 4) // 3
 // countOccurrence([2,'banana',4,4,1,'banana'], 'banana') // 2
 var countOccurrence = function(array, value) {
+  //BASE if array is empty return 0
+  if (array.length === 0) {
+    return 0;
+  }
+  
+  //check if first element matches the value in the rest of the array
+  var countInRest = countOccurrence(array.slice(1), value);
+  
+  //if first element matches the value increment the count
+  return (array[0] === value ? 1 : 0) + countInRest;
 };
 
 // 20. Write a recursive version of map.
 // rMap([1,2,3], timesTwo); // [2,4,6]
 var rMap = function(array, callback) {
+  //base if array is empty return empty array
+  if (array.length === 0) {
+    return [];
+  }
+  
+  //callback to the first element and recur map the rest
+  return [callback(array[0])].concat(rMap(array.slice(1), callback));
+}
+
+//callback function
+function timesTwo(num) {
+  return num * 2;
 };
 
 // 21. Write a function that counts the number of times a key occurs in an object.
@@ -259,6 +342,21 @@ var fibonacci = function(n) {
 // nthFibo(7); // 13
 // nthFibo(3); // 2
 var nthFibo = function(n) {
+  //return null for negative integers
+  if (n < 0) {
+    return null;
+  }
+  
+  //BASR
+  if (n === 0) {
+    return 0;
+  }
+  if (n === 1) {
+    return 1;
+  }
+  
+  //RECUR sum of the two preceding numbers
+  return nthFibo(n - 1) + nthFibo(n - 2);
 };
 
 // 26. Given an array of words, return a new array containing each word capitalized.
