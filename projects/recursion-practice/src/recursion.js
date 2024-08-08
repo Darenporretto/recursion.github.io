@@ -414,7 +414,25 @@ var flatten = function(arrays) {
 
 // 30. Given a string, return an object containing tallies of each letter.
 // letterTally('potato'); // {'p':1, 'o':2, 't':2, 'a':1}
-var letterTally = function(str, obj) {
+var letterTally = function(str, obj = {}) {
+  //base- if the string is empty return the tally object
+  if (str.length === 0) {
+      return obj;
+  }
+
+  //process first char
+  let firstChar = str[0];
+
+  //update tally in the object
+  if (obj[firstChar]) {
+      obj[firstChar]++;
+  } else {
+      obj[firstChar] = 1;
+  }
+
+  //recur call with the rest of the string
+  return letterTally(str.slice(1), obj);
+  
 };
 
 // 31. Eliminate consecutive duplicates in a list.  If the list contains repeated
@@ -422,7 +440,22 @@ var letterTally = function(str, obj) {
 // elements should not be changed.
 // Example: compress([1, 2, 2, 3, 4, 4, 5, 5, 5]) // [1, 2, 3, 4, 5]
 // Example: compress([1, 2, 2, 3, 4, 4, 2, 5, 5, 5, 4, 4]) // [1, 2, 3, 4, 2, 5, 4]
-var compress = function(list) {
+var compress = function(list, prev = null) {
+  //base if the list is empty, return an empty array
+  if (list.length === 0) {
+    return [];
+}
+
+//take first element and the rest of the list
+const [first, ...rest] = list;
+
+//if first element is the same as the previous one, skip it
+if (first === prev) {
+    return compress(rest, prev);
+} else {
+    //or else include  first element and recurse with the rest
+    return [first, ...compress(rest, first)];
+}
 };
 
 // 32. Augment every element in a list with a new value where each element is an array
@@ -434,7 +467,22 @@ var augmentElements = function(array, aug) {
 // 33. Reduce a series of zeroes to a single 0.
 // minimizeZeroes([2,0,0,0,1,4]) // [2,0,1,4]
 // minimizeZeroes([2,0,0,0,1,0,0,4]) // [2,0,1,0,4]
-var minimizeZeroes = function(array) {
+var minimizeZeroes = function(array, lastAdded = null){
+  //base if the array is empty, return an empty array
+  if (array.length === 0) {
+    return [];
+}
+
+//take first element and the rest of the array
+const [first, ...rest] = array;
+
+//if first element is zero and the last added element was also zero, skip it
+if (first === 0 && lastAdded === 0) {
+    return minimizeZeroes(rest, lastAdded);
+} else {
+    //or else include the first element and recurse with the rest
+    return [first, ...minimizeZeroes(rest, first)];
+}
 };
 
 // 34. Alternate the numbers in an array between positive and negative regardless of
