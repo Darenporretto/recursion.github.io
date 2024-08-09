@@ -489,8 +489,30 @@ if (first === 0 && lastAdded === 0) {
 // their original sign.  The first number in the index always needs to be positive.
 // alternateSign([2,7,8,3,1,4]) // [2,-7,8,-3,1,-4]
 // alternateSign([-2,-7,8,3,-1,4]) // [2,-7,8,-3,1,-4]
-var alternateSign = function(array) {
-  
+var alternateSign = function(array, index = 0, shouldBePositive = true) {
+  //base if index exceeds the length of the array, return an empty array
+  if (index >= array.length) {
+      return [];
+  }
+
+  //move zeroes and move to the next element
+  while (index < array.length && array[index] === 0) {
+      index++;
+  }
+
+  //if index exceeds the length after removing zeroes return an empty array
+  if (index >= array.length) {
+      return [];
+  }
+
+  //determine the current sign
+  const currentSign = shouldBePositive ? 1 : -1;
+
+  //add the current sign to the current element
+  const signedElement = array[index] * currentSign;
+
+  // Recur the rest of the array with the opposite sign
+  return [signedElement, ...alternateSign(array, index + 1, !shouldBePositive)];
 };
 
 // 35. Given a string, return a string with digits converted to their word equivalent.
