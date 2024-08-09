@@ -490,12 +490,40 @@ if (first === 0 && lastAdded === 0) {
 // alternateSign([2,7,8,3,1,4]) // [2,-7,8,-3,1,-4]
 // alternateSign([-2,-7,8,3,-1,4]) // [2,-7,8,-3,1,-4]
 var alternateSign = function(array) {
+  
 };
 
 // 35. Given a string, return a string with digits converted to their word equivalent.
 // Assume all numbers are single digits (less than 10).
 // numToText("I have 5 dogs and 6 ponies"); // "I have five dogs and six ponies"
 var numToText = function(str) {
+  //change digits to their word equivalents
+  const numWords = {
+      '0': 'zero',
+      '1': 'one',
+      '2': 'two',
+      '3': 'three',
+      '4': 'four',
+      '5': 'five',
+      '6': 'six',
+      '7': 'seven',
+      '8': 'eight',
+      '9': 'nine'
+  };
+
+  //base if string is empty return it
+  if (str.length === 0) {
+      return '';
+  }
+
+  //take first character and the rest of the string
+  const [firstChar, ...rest] = str;
+
+  //convert the char if it's a digit otherwise keep it
+  const convertedChar = numWords[firstChar] !== undefined ? numWords[firstChar] : firstChar;
+
+  //recur process the rest of the string
+  return convertedChar + numToText(rest.join(''));
 };
 
 // *** EXTRA CREDIT ***
