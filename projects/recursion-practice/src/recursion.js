@@ -83,6 +83,18 @@ var range = function(x, y, output = []) {
 // Example:  exponent(4,3);  // 64
 // https://www.khanacademy.org/computing/computer-science/algorithms/recursive-algorithms/a/computing-powers-of-a-number
 var exponent = function(base, exp) {
+  //base
+  if (exp === 0) {
+    return 1;
+  }
+  if (exp === 1) {
+    return base;
+  }
+  if (exp < 0) {
+    return 1 / exponent(base, -exp);
+  }
+  //recursion
+  return base * exponent(base, exp - 1);
 };
 
 // 8. Determine if a number is a power of two.
@@ -193,7 +205,19 @@ var fibonacci = function(n) {
 // nthFibo(5); // 5
 // nthFibo(7); // 13
 // nthFibo(3); // 2
-var nthFibo = function(n) {
+var nthFibo = function(n, fib=[0, 1]) {
+  //base handles negative inputs
+  if (n < 0) {
+   return null;
+  }  
+  //base case for 0 and 1
+  if (n < fib.length) {
+    return fib[n];
+  } 
+
+  //recursion 
+  fib[n] = nthFibo(n - 1, fib) + nthFibo(n - 2, fib);
+  return fib[n];
 };
 
 // 26. Given an array of words, return a new array containing each word capitalized.
