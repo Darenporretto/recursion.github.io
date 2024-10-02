@@ -75,7 +75,7 @@ var sumBelow = function(n) {
 var range = function(x, y, output = []) {
   //if x is graeter than y switch them
   if (x > y) {
-    return range(y, x, output);
+    return range(y, x, output).reverse();
   }
 
   //base if x is equal to or greater than y return the output
@@ -139,6 +139,18 @@ var reverse = function(string) {
 
 // 10. Write a function that determines if a string is a palindrome.
 var palindrome = function(string) {
+  //remove spaces and cap letters
+  string = string.replace(/\s+/g, '').toLowerCase();
+//base
+if (string.length <= 1) {
+  return true;
+}
+//check first and last chars
+if (string[0] !== string[string.length - 1]) {
+  return false;
+}
+//recursion
+return palindrome(string.slice(1, -1));
 };
 
 // 11. Write a function that returns the remainder of x divided by y without using the
